@@ -29,33 +29,33 @@ void	init(char **envp)
 	signal(SIGINT, sig_quit);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	(void)argc;
-	(void)argv;
-	init(envp);
-	while (3)
-	{
-		g_inf.line = readline(PROMPT);
-		if (g_inf.line == NULL)
-			exit_ms("exit", 0);
-		if (!ft_strlen(g_inf.line))
-		{
-			free(g_inf.line);
-			continue ;
-		}
-		add_history(g_inf.line);
-		g_inf.line = expand_dol(g_inf.line);
-		g_inf.pipes = parse(g_inf.line);
-		free(g_inf.line);
-		g_inf.line = NULL;
-		g_inf.code = 0;
-		if (PIPES)
-			exec();
-		g_inf.pipes = free_pipes(g_inf.pipes);
-		g_inf.mask = 0;
-	}
-}
+//int	main(int argc, char **argv, char **envp)
+//{
+//	(void)argc;
+//	(void)argv;
+//	init(envp);
+//	while (3)
+//	{
+//		g_inf.line = readline(PROMPT);
+//		if (g_inf.line == NULL)
+//			exit_ms("exit", 0);
+//		if (!ft_strlen(g_inf.line))
+//		{
+//			free(g_inf.line);
+//			continue ;
+//		}
+//		add_history(g_inf.line);
+//		g_inf.line = expand_dol(g_inf.line);
+//		g_inf.pipes = parse(g_inf.line);
+//		free(g_inf.line);
+//		g_inf.line = NULL;
+//		g_inf.code = 0;
+//		if (PIPES)
+//			exec();
+//		g_inf.pipes = free_pipes(g_inf.pipes);
+//		g_inf.mask = 0;
+//	}
+//}
 
 #endif
 

@@ -33,7 +33,7 @@ SRC =				parser/expand_dolar.c parser/expand_dollar2.c parser/token_list.c parse
 					export/export.c export/export_utils.c\
 					export/update.c export/unset.c\
 					export/same_for_export.c env/env.c exit/exit.c cd/cd.c main.c\
-					echo/echo.c pwd/pwd.c
+					echo/echo.c pwd/pwd.c wildcard/wldcard.c
 
 SRC_DIR =			./src/
 
@@ -43,7 +43,7 @@ SOURCES =			$(addprefix ${SRC_DIR}, ${SRC})
 
 BUILDIR = ./obj/
 
-BUILDIRS =			echo/ cd/ env/ pwd/ utils/ pipex/ exec/ parser/ export/ exit/ libft/
+BUILDIRS =			echo/ wildcard/ cd/ env/ pwd/ utils/ pipex/ exec/ parser/ export/ exit/ libft/
 
 BLDRS =				$(addprefix ${BUILDIR}, ${BUILDIRS})
 

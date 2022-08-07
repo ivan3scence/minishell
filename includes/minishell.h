@@ -14,6 +14,7 @@
 # include <sys/wait.h>
 # include <dirent.h>
 # include "pipex.h"
+# include <dirent.h>
 
 /*
 //		readline colours
@@ -98,6 +99,12 @@ typedef	struct		s_mshell
 	t_pipes			*pipes;
 	pid_t			*pids;
 }					t_mshell;
+
+typedef struct s_wldcrd
+{
+	char			*file;
+	struct s_wldcrd	*next;
+}					t_wldcrd;
 
 void	*free_pipes(t_pipes *pipes);
 void	*free_lenv(t_env *lenv);

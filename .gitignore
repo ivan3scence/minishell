@@ -1,4 +1,6 @@
 .idea*
+obj*
+libft/libft.a
 .vscode*
 a.out
 test*

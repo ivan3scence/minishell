@@ -64,6 +64,7 @@
 # define QUOTS(x) ((x >> 1) & 1)
 # define DIGIT(x) ((x >> 2) & 1)
 # define UPDATELENV(x) ((x >> 4) & 1)
+# define FILES_NOT_FOUND (void *)0
 # define PIPE_OK 1
 # define PIPE_KO 0
 # define EXIT_ERROR 1
@@ -165,5 +166,6 @@ void	killchild(char **cmd, int **fd);
 int		close_all(int **fd);
 int		str_len(char **str);
 void	child_fd(int index, int **fd);
-int	check_func(t_pipes *pipes, int parent, int index);
+int		check_func(t_pipes *pipes, int parent, int index);
+char	*wldcrd(char *str);
 #endif

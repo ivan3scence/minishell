@@ -41,7 +41,7 @@ HEADERS =			$(addprefix ${HDRS_DIR}, ${HDRS})
 
 SOURCES =			$(addprefix ${SRC_DIR}, ${SRC})
 
-BUILDIR = ./obj/
+BUILDIR = 			./obj/
 
 BUILDIRS =			echo/ wildcard/ cd/ env/ pwd/ utils/ pipex/ exec/ parser/ export/ exit/ libft/
 
@@ -69,7 +69,7 @@ ${LIBFT}:
 					${MAKE} -C ${LIBFTDIR}
 
 ${NAME}:			${OBJS} ${HEADERS} 
-					${CC} ${CFLAGS} ${OBJS} -o $@ ${LIBS}				#Linux
+					${CC} ${CFLAGS} ${OBJS} -o $@ ${LIBS}
 
 ${BUILDIR}:
 					mkdir -p $@

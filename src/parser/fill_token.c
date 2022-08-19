@@ -44,7 +44,7 @@ void	make_new_token(int *token_index, int *val_index, char key)
 	++(*token_index);
 	g_inf.tokens[*token_index].key = key;
 	g_inf.tokens[*token_index].val = (char *)malloc(sizeof(char)
-			* g_inf.line_len);	//!!!!
+			* g_inf.line_len);
 	if (!g_inf.tokens[*token_index].val)
 		exit_ms("malloc", 1);
 }

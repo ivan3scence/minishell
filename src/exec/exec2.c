@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error_managment.c                                  :+:      :+:    :+:   */
+/*   exec2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sdonny <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -14,50 +14,55 @@
 
 extern t_mshell	g_inf;
 
-void	*free_fd(int **fd)
+void	*free_pipes(t_pipes *pipes)
+{
+	t_pipes	*cp;
+	int		i;
+
+	cp = pipes;
+	while (pipes)
+	{
+		i = -1;
+		while (pipes->cmd[++i])
+		{
+			free(pipes->cmd[i]);
+		}
+		free(pipes->cmd);
+		if (pipes->in)
+			free(pipes->in);
+		if (pipes->out)
+			free(pipes->out);
+		pipes = pipes->next;
+	}
+	free(cp);
+	return (NULL);
+}
+
+void	print_string(char **str)
 {
 	int	i;
 
 	i = -1;
-	if (fd)
+	while (str[++i] && *str[i])
 	{
-		while (++i <= (g_inf.mask >> 16))
-		{
-			if (fd[i])
-				free(fd[i]);
-		}
-		free(fd);
-		fd = NULL;
+		ft_putendl_fd(str[i], 1);
 	}
-	return (NULL);
 }
 
-void	exitmalloc(int **fd)
+void	print_pipes(t_pipes *pipe)
 {
-	perror("malloc rip");
-	fd = free_fd(fd);
-	ft_putendl_fd("pipex gone mad", 2);
-	exit(43);
-}
+	int	i;
 
-void	exitpipex(int **fd, char *desc)
-{
-	perror(desc);
-	fd = free_fd(fd);
-	free(g_inf.pids);
-	g_inf.pids = NULL;
-	free_pipes(g_inf.pipes);
-	exit(127);
-}
-
-void	free_list(t_wldcrd *list)
-{
-	t_wldcrd	*tmp;
-
-	while (list)
+	i = -1;
+	while (pipe)
 	{
-		tmp = list;
-		list = list->next;
-		free(tmp);
+		ft_putstr_fd("pipe #", 1);
+		ft_putnbr_fd(++i, 1);
+		ft_putchar_fd('\n', 1);
+		print_string(pipe->cmd);
+		printf("input: _%s_\noutput: _%s_\n", pipe->in, pipe->out);
+		ft_putstr_fd("_______________________\n", 1);
+		pipe = pipe->next;
 	}
+//	cnt = 1;
 }

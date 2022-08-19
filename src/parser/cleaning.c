@@ -36,11 +36,8 @@ char	*find_env(char *find)
 	return (NULL);
 }
 
-static void	check_redirs(void)
+static void	check_redirs(t_list *token)
 {
-	t_list	*token;
-
-	token = g_inf.tokens;
 	while (token)
 	{
 		if ((token->key == OUTFILE || token->key == INFILE)
@@ -54,8 +51,16 @@ static void	check_redirs(void)
 		{
 			if (!token->next)
 				exit_ms("syntax error near unexpected token", 2);
+			while (token->next && token->next->key == SPC)
+			{
+				token->next = token->next->next;
+			}
+			if (!token->next || token->next->key != COMMAND)
+				exit_ms("not valid syntax!", 1);
 			free(token->val);
 			token->val = ft_strdup(token->next->val);
+			free(token->next->val);
+			token->next->val = NULL;
 			token->next = token->next->next;
 		}
 		else if (token->key == SQUOTES || token->key == DQUOTES)
@@ -107,15 +112,58 @@ void	check_pipes(t_list *token)
 //// ft_putstr_fd("_______________________\n",1);
 //	return (remalloc());
 //}
+
+char	*find_wildcard_word(char **splt)
+{
+	char	*joined;
+	char	*tmp;
+	int		i;
+
+	i = -1;
+	joined = NULL;
+	if (!splt)
+		return (NULL);
+	while (splt[++i])
+	{
+		if (ft_strchr(splt[i], '*'))
+		{
+			tmp = splt[i];
+			splt[i] = wldcrd(splt[i]);
+			free(tmp);
+		}
+		strapp(&joined, splt[i], 2);
+	}
+	free(splt);
+	return (joined);
+}
+
+void	check_wildcards(t_list *tokens)
+{
+	char	*tmp;
+
+	while (tokens)
+	{
+		if (tokens->key == COMMAND && ft_strchr(tokens->val, '*') != NULL)
+		{
+			tmp = tokens->val;
+			tokens->val = find_wildcard_word(ft_split(tokens->val,
+													  ' '));
+			free(tmp);
+		}
+		tokens = tokens->next;
+	}
+}
+
 t_pipes	*cleaning(void)
 {
 	if (g_inf.tokens->key == PIPE)
 		exit_ms("syntax error near unexpected token `|'", 2);
+	check_wildcards(g_inf.tokens);
 	if (QUOTS(g_inf.mask))
 	{
 		remove_quotes(g_inf.tokens);
 	}
-	check_redirs();
+	check_redirs(g_inf.tokens);
 	check_pipes(g_inf.tokens);
 	join_commands(g_inf.tokens);
 	return (remalloc());

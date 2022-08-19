@@ -35,6 +35,9 @@ t_pipes	*parse(char *line)
 
 	i = -1;
 	n = -1;
+	g_inf.line_len = ft_strlen(line) * 2;
+	if (g_inf.line_len < 10)
+		g_inf.line_len = 10;
 	g_inf.tokens = (t_list *) malloc(sizeof(t_list) * tok_quant(line));
 	if (!g_inf.tokens)
 		exit_ms("malloc error", 1);

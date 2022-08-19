@@ -67,7 +67,7 @@ int	selected(char *file, char *wld)
 	int		first_iter;
 
 	first_iter = -1;
-	while (*wld && ++first_iter)
+	while (*wld)
 	{
 		star_index = ft_strchr(wld, '*');
 		if (star_index == NULL)
@@ -97,7 +97,7 @@ t_wldcrd	*selection(t_wldcrd *list, char *str, t_wldcrd *bl, t_wldcrd *tmp)
 	{
 		if (!selected(list->file, str))
 		{
-			printf("not selected: %s\n", list->file);
+//			printf("not selected: %s\n", list->file);
 			if (bl == list)
 			{
 				tmp = list->next;
@@ -112,7 +112,7 @@ t_wldcrd	*selection(t_wldcrd *list, char *str, t_wldcrd *bl, t_wldcrd *tmp)
 			list = tmp->next;
 			continue ;
 		}
-		printf("selected: %s\n", list->file);
+//		printf("selected: %s\n", list->file);
 		tmp = list;
 		list = list->next;
 	}
@@ -156,16 +156,21 @@ char	*select_and_join(t_wldcrd *list, char *str)
 	clear_list = selection(list, str, list, list);
 	if (clear_list)
 		return (join_files(clear_list));
-	return (FILES_NOT_FOUND);
+	return (ft_strdup(""));
 }
 
 char	*wldcrd(char *str)
 {
 	t_wldcrd		*list;
 	DIR				*dirp;
+	char			*return_value;
 	struct dirent	*dp;
 
 	list = NULL;
+
+//	printf("wld:_%s_\n", str);
+
+
 	dirp = opendir(".");
 	if (dirp == NULL)
 		exit_ms("opendir error!", 1);
@@ -179,16 +184,21 @@ char	*wldcrd(char *str)
 		wldadd_back(&list, new_lst(dp->d_name));
 	}
 	if (!list)
+	{
+		closedir(dirp);
 		return (NULL);
-	return (select_and_join(list, str));
+	}
+	return_value = select_and_join(list, str);
+	closedir(dirp);
+	return (return_value);
 }
 
-int	main(int argc, char **argv)
-{
-	char	*str;
-
-	(void)argc;
-	str = wldcrd(argv[1]);
-	ft_putendl_fd(str, 1);
-	free(str);
-}
+//int	main(int argc, char **argv)
+//{
+//	char	*str;
+//
+//	(void)argc;
+//	str = wldcrd(argv[1]);
+//	ft_putendl_fd(str, 1);
+//	free(str);
+//}

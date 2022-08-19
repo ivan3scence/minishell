@@ -95,6 +95,7 @@ typedef	struct		s_mshell
 	//	3ий с конца бит 1: если в токене доллара первый символ цифра; 0: не единица; 4 bit update_lenv
 	int				mask;
 	int				code;
+	int				line_len;
 	t_env			*lenv;
 	t_list			*tokens;
 	t_pipes			*pipes;

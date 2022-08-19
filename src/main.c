@@ -29,33 +29,34 @@ void	init(char **envp)
 	signal(SIGINT, sig_quit);
 }
 
-//int	main(int argc, char **argv, char **envp)
-//{
-//	(void)argc;
-//	(void)argv;
-//	init(envp);
-//	while (3)
-//	{
-//		g_inf.line = readline(PROMPT);
-//		if (g_inf.line == NULL)
-//			exit_ms("exit", 0);
-//		if (!ft_strlen(g_inf.line))
-//		{
-//			free(g_inf.line);
-//			continue ;
-//		}
-//		add_history(g_inf.line);
-//		g_inf.line = expand_dol(g_inf.line);
-//		g_inf.pipes = parse(g_inf.line);
-//		free(g_inf.line);
-//		g_inf.line = NULL;
-//		g_inf.code = 0;
-//		if (PIPES)
-//			exec();
-//		g_inf.pipes = free_pipes(g_inf.pipes);
-//		g_inf.mask = 0;
-//	}
-//}
+int	main(int argc, char **argv, char **envp)
+{
+	(void)argc;
+	(void)argv;
+	init(envp);
+	while (1)
+	{
+		g_inf.line = readline(PROMPT);
+		if (g_inf.line == NULL)
+			exit_ms("exit", 0);
+		if (!ft_strlen(g_inf.line))
+		{
+			free(g_inf.line);
+			continue ;
+		}
+		add_history(g_inf.line);
+		g_inf.line = expand_dol(g_inf.line);
+		g_inf.pipes = parse(g_inf.line);
+		free(g_inf.line);
+		g_inf.line = NULL;
+		g_inf.code = 0;
+		 print_pipes(g_inf.pipes);
+		if (PIPES)
+			exec();
+		g_inf.pipes = free_pipes(g_inf.pipes);
+		g_inf.mask = 0;
+	}
+}
 
 #endif
 
@@ -75,10 +76,10 @@ int     main(int argc, char **argv, char **envp)
 	signal(SIGINT, sig_hand);
 
     if (argc < 3)
-        exit(228);
+		exit(228);
 	g_inf.line = ft_strdup(argv[2]);
     if (!g_inf.line || ft_strlen(g_inf.line) == 0)
-        exit_ms(NULL, 0);
+		exit_ms(NULL, 0);
 	// printf("%s\n", g_inf.line);
 	if (g_inf.line == NULL)
 		exit_ms("exit", 0);
@@ -110,9 +111,9 @@ int     main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, sig_quit);
 	signal(SIGINT, sig_hand);
 
-	g_inf.line = ft_strdup("");
-    if (!g_inf.line || ft_strlen(g_inf.line) == 0)
-        exit(0);
+	g_inf.line = ft_strdup("whereis ls | cat -e | cat -e > test");
+	if (!g_inf.line || ft_strlen(g_inf.line) == 0)
+		exit(0);
 	// ft_putendl_fd(g_inf.line, 2);
 	if (g_inf.line == NULL)
 		exit_ms("exit", 0);
